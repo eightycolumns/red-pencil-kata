@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -6,6 +8,7 @@ public class ProductTest {
   public void fourPercentPriceReductionDoesNotStartRedPencilPromotion() {
     Product product = new Product(100);
     product.setPriceInCents(96);
+
     assertFalse(product.isRedPencilPromotion());
   }
 
@@ -13,6 +16,7 @@ public class ProductTest {
   public void fivePercentPriceReductionStartsRedPencilPromotion() {
     Product product = new Product(100);
     product.setPriceInCents(95);
+
     assertTrue(product.isRedPencilPromotion());
   }
 
@@ -20,6 +24,7 @@ public class ProductTest {
   public void thirtyPercentPriceReductionStartsRedPencilPromotion() {
     Product product = new Product(100);
     product.setPriceInCents(70);
+
     assertTrue(product.isRedPencilPromotion());
   }
 
@@ -27,6 +32,21 @@ public class ProductTest {
   public void thirtyOnePercentPriceReductionDoesNotStartRedPencilPromotion() {
     Product product = new Product(100);
     product.setPriceInCents(69);
+
     assertFalse(product.isRedPencilPromotion());
+  }
+
+  @Test
+  public void redPencilPromotionExpiresInThirtyDays() {
+    Product product = new Product(100);
+    product.setPriceInCents(75);
+
+    Calendar expectedRedPencilPromotionExpirationDate = Calendar.getInstance();
+    expectedRedPencilPromotionExpirationDate.add(Calendar.DATE, 30);
+
+    assertEquals(
+      expectedRedPencilPromotionExpirationDate,
+      product.getRedPencilPromotionExpirationDate()
+    );
   }
 }
