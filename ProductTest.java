@@ -22,4 +22,11 @@ public class ProductTest {
     product.setPriceInCents(70);
     assertTrue(product.isRedPencilPromotion());
   }
+
+  @Test
+  public void thirtyOnePercentPriceReductionDoesNotStartRedPencilPromotion() {
+    Product product = new Product(100);
+    product.setPriceInCents(69);
+    assertFalse(product.isRedPencilPromotion());
+  }
 }
