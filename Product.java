@@ -8,6 +8,10 @@ class Product {
   }
 
   public void setPriceInCents(int newPriceInCents) {
+    if (newPriceInCents <= priceInCents * 0.95) {
+      isRedPencilPromotion = true;
+    }
+
     priceInCents = newPriceInCents;
   }
 
