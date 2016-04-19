@@ -8,14 +8,18 @@ class Product {
   }
 
   public void setPriceInCents(int newPriceInCents) {
-    if (
-      newPriceInCents <= priceInCents * 0.95 &&
-      newPriceInCents >= priceInCents * 0.70
-    ) {
+    if (isInRedPencilRange(newPriceInCents)) {
       isRedPencilPromotion = true;
     }
 
     priceInCents = newPriceInCents;
+  }
+
+  private boolean isInRedPencilRange(int newPriceInCents) {
+    return (
+      newPriceInCents <= priceInCents * 0.95 &&
+      newPriceInCents >= priceInCents * 0.70
+    );
   }
 
   public boolean isRedPencilPromotion() {
