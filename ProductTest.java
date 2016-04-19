@@ -15,4 +15,11 @@ public class ProductTest {
     product.setPriceInCents(95);
     assertTrue(product.isRedPencilPromotion());
   }
+
+  @Test
+  public void thirtyPercentPriceReductionStartsRedPencilPromotion() {
+    Product product = new Product(100);
+    product.setPriceInCents(70);
+    assertTrue(product.isRedPencilPromotion());
+  }
 }
