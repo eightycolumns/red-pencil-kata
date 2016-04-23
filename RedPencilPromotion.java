@@ -11,7 +11,7 @@ class RedPencilPromotion {
     this.systemCalendar = systemCalendar;
 
     LocalDate today = systemCalendar.getDate();
-    expirationDate = today.plusDays(DURATION_IN_DAYS);
+    expirationDate = today.plusDays(DURATION_IN_DAYS - 1);
   }
 
   public boolean isExpired() {

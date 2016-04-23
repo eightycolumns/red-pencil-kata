@@ -13,7 +13,7 @@ public class ProductTest {
   }
 
   @Test
-  public void fourPercentPriceReductionDoesNotStartRedPencilPromotion() {
+  public void priceReductionOf4PercentDoesNotStartRedPencilPromotion() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(96);
@@ -21,7 +21,7 @@ public class ProductTest {
   }
 
   @Test
-  public void fivePercentPriceReductionStartsRedPencilPromotion() {
+  public void priceReductionOf5PercentDoesStartRedPencilPromotion() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(95);
@@ -29,7 +29,7 @@ public class ProductTest {
   }
 
   @Test
-  public void thirtyPercentPriceReductionStartsRedPencilPromotion() {
+  public void priceReductionOf30PercentDoesStartRedPencilPromotion() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(70);
@@ -37,7 +37,7 @@ public class ProductTest {
   }
 
   @Test
-  public void thirtyOnePercentPriceReductionDoesNotStartRedPencilPromotion() {
+  public void priceReductionOf31PercentDoesStartRedPencilPromotion() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(69);
@@ -45,12 +45,15 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionCanOnlyStartAfterThirtyDaysOfStablePricing() {
+  public void redPencilPromotionCannotStartAfter29DaysOfStablePricing() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(29);
     product.setPriceInCents(75);
     assertFalse(product.isRedPencilPromotion());
+  }
 
+  @Test
+  public void redPencilPromotionCanStartAfter30DaysOfStablePricing() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(75);
@@ -58,14 +61,19 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionExpiresInThirtyDays() {
+  public void redPencilPromotionLastsFor30Days() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(75);
-
     stubSystemCalendar.incrementDate(29);
     assertTrue(product.isRedPencilPromotion());
+  }
 
+  @Test
+  public void redPencilPromotionExpiresOn31stDay() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(75);
     stubSystemCalendar.incrementDate(30);
     assertFalse(product.isRedPencilPromotion());
   }
