@@ -1,52 +1,51 @@
-import java.util.Calendar;
-
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ProductTest {
+  private StubSystemCalendar stubSystemCalendar;
+  private Product product;
+
+  @Before
+  public void init() {
+    stubSystemCalendar = new StubSystemCalendar();
+    product = new Product(stubSystemCalendar);
+
+    product.setPriceInCents(100);
+  }
+
   @Test
   public void fourPercentPriceReductionDoesNotStartRedPencilPromotion() {
-    Product product = new Product(100);
     product.setPriceInCents(96);
-
     assertFalse(product.isRedPencilPromotion());
   }
 
   @Test
   public void fivePercentPriceReductionStartsRedPencilPromotion() {
-    Product product = new Product(100);
     product.setPriceInCents(95);
-
     assertTrue(product.isRedPencilPromotion());
   }
 
   @Test
   public void thirtyPercentPriceReductionStartsRedPencilPromotion() {
-    Product product = new Product(100);
     product.setPriceInCents(70);
-
     assertTrue(product.isRedPencilPromotion());
   }
 
   @Test
   public void thirtyOnePercentPriceReductionDoesNotStartRedPencilPromotion() {
-    Product product = new Product(100);
     product.setPriceInCents(69);
-
     assertFalse(product.isRedPencilPromotion());
   }
 
   @Test
   public void redPencilPromotionExpiresInThirtyDays() {
-    Product product = new Product(100);
     product.setPriceInCents(75);
 
-    Calendar expectedRedPencilPromotionExpirationDate = Calendar.getInstance();
-    expectedRedPencilPromotionExpirationDate.add(Calendar.DATE, 30);
+    stubSystemCalendar.incrementDate(30);
+    assertTrue(product.isRedPencilPromotion());
 
-    assertEquals(
-      expectedRedPencilPromotionExpirationDate,
-      product.getRedPencilPromotionExpirationDate()
-    );
+    stubSystemCalendar.incrementDate(1);
+    assertFalse(product.isRedPencilPromotion());
   }
 }
