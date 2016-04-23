@@ -1,4 +1,4 @@
-import java.util.Calendar;
+import java.time.LocalDate;
 
 class StubSystemCalendar extends SystemCalendar {
   private int modifier = 0;
@@ -12,10 +12,7 @@ class StubSystemCalendar extends SystemCalendar {
   }
 
   @Override
-  public Calendar getDate() {
-    Calendar date = Calendar.getInstance();
-    date.add(Calendar.DATE, modifier);
-
-    return date;
+  public LocalDate getDate() {
+    return LocalDate.now().plusDays(modifier);
   }
 }

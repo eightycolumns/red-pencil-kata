@@ -1,14 +1,14 @@
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.TreeMap;
 
 class Product {
   private SystemCalendar systemCalendar;
   private RedPencilPromotion redPencilPromotion;
-  private TreeMap<Calendar, Integer> pricingHistory;
+  private TreeMap<LocalDate, Integer> pricingHistory;
 
   public Product(SystemCalendar systemCalendar) {
     this.systemCalendar = systemCalendar;
-    pricingHistory = new TreeMap<Calendar, Integer>();
+    pricingHistory = new TreeMap<LocalDate, Integer>();
   }
 
   public void setPriceInCents(int priceInCents) {
@@ -16,14 +16,14 @@ class Product {
       redPencilPromotion = new RedPencilPromotion(systemCalendar);
     }
 
-    Calendar today = systemCalendar.getDate();
+    LocalDate today = systemCalendar.getDate();
     priceInCents = new Integer(priceInCents);
 
     pricingHistory.put(today, priceInCents);
   }
 
   private boolean priceQualifiesForRedPencilPromotion(int priceInCents) {
-    if (pricingHistory.isEmpty()) {
+    if (pricingHistory.isEmpty() || !priceIsStable()) {
       return false;
     }
 
@@ -33,6 +33,13 @@ class Product {
       priceInCents <= previousPriceInCents * 0.95 &&
       priceInCents >= previousPriceInCents * 0.70
     );
+  }
+
+  private boolean priceIsStable() {
+    LocalDate dateOfLastPriceChange = pricingHistory.lastKey();
+    LocalDate today = systemCalendar.getDate();
+
+    return dateOfLastPriceChange.plusDays(29).isBefore(today);
   }
 
   public boolean isRedPencilPromotion() {

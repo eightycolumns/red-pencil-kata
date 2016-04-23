@@ -1,7 +1,7 @@
-import java.util.Calendar;
+import java.time.LocalDate;
 
 class SystemCalendar {
-  public Calendar getDate() {
-    return Calendar.getInstance();
+  public LocalDate getDate() {
+    return LocalDate.now();
   }
 }
