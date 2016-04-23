@@ -1,42 +1,41 @@
 import java.util.Calendar;
+import java.util.TreeMap;
 
 class Product {
   private SystemCalendar systemCalendar;
-  private int priceInCents;
   private RedPencilPromotion redPencilPromotion;
+  private TreeMap<Calendar, Integer> pricingHistory;
 
   public Product(SystemCalendar systemCalendar) {
     this.systemCalendar = systemCalendar;
+    pricingHistory = new TreeMap<Calendar, Integer>();
   }
 
   public void setPriceInCents(int priceInCents) {
-    if (qualifiesForRedPencilPromotion(priceInCents)) {
-      Calendar today = systemCalendar.getDate();
-      redPencilPromotion = new RedPencilPromotion(today);
+    if (priceQualifiesForRedPencilPromotion(priceInCents)) {
+      redPencilPromotion = new RedPencilPromotion(systemCalendar);
     }
 
-    this.priceInCents = priceInCents;
+    Calendar today = systemCalendar.getDate();
+    priceInCents = new Integer(priceInCents);
+
+    pricingHistory.put(today, priceInCents);
   }
 
-  private boolean qualifiesForRedPencilPromotion(int priceInCents) {
+  private boolean priceQualifiesForRedPencilPromotion(int priceInCents) {
+    if (pricingHistory.isEmpty()) {
+      return false;
+    }
+
+    int previousPriceInCents = pricingHistory.get(pricingHistory.lastKey());
+    
     return (
-      priceInCents <= this.priceInCents * 0.95 &&
-      priceInCents >= this.priceInCents * 0.70
+      priceInCents <= previousPriceInCents * 0.95 &&
+      priceInCents >= previousPriceInCents * 0.70
     );
   }
 
   public boolean isRedPencilPromotion() {
-    if (redPencilPromotion == null) {
-      return false;
-    }
-
-    Calendar today = systemCalendar.getDate();
-    Calendar expirationDate = redPencilPromotion.getExpirationDate();
-
-    if (today.after(expirationDate)) {
-      return false;
-    }
-
-    return true;
+    return redPencilPromotion != null && !redPencilPromotion.isExpired();
   }
 }

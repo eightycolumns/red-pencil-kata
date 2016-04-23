@@ -42,10 +42,10 @@ public class ProductTest {
   public void redPencilPromotionExpiresInThirtyDays() {
     product.setPriceInCents(75);
 
-    stubSystemCalendar.incrementDate(30);
+    stubSystemCalendar.incrementDate(29);
     assertTrue(product.isRedPencilPromotion());
 
-    stubSystemCalendar.incrementDate(1);
+    stubSystemCalendar.incrementDate(30);
     assertFalse(product.isRedPencilPromotion());
   }
 }
