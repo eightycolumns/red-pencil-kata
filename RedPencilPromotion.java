@@ -5,17 +5,21 @@ class RedPencilPromotion {
 
   private SystemCalendar systemCalendar;
 
+  private LocalDate startingDate;
+  private int startingPriceInCents;
   private LocalDate expirationDate;
 
-  public RedPencilPromotion(SystemCalendar systemCalendar) {
-    this.systemCalendar = systemCalendar;
-
-    LocalDate today = systemCalendar.getDate();
-    expirationDate = today.plusDays(DURATION_IN_DAYS - 1);
+  public RedPencilPromotion(LocalDate startingDate, int startingPriceInCents) {
+    this.startingDate = startingDate;
+    this.startingPriceInCents = startingPriceInCents;
+    expirationDate = startingDate.plusDays(DURATION_IN_DAYS - 1);
   }
 
-  public boolean isExpired() {
-    LocalDate today = systemCalendar.getDate();
-    return today.isAfter(expirationDate);
+  public LocalDate getExpirationDate() {
+    return expirationDate;
+  }
+
+  public int getStartingPriceInCents() {
+    return startingPriceInCents;
   }
 }

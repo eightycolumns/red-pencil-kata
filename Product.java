@@ -34,27 +34,28 @@ class Product {
     int currentPriceInCents,
     int newPriceInCents
   ) {
-    if (newPriceInCents > currentPriceInCents) {
-      redPencilPromotion = null;
-    } else if (redPencilPromotion != null && !redPencilPromotion.isExpired()) {
-      return;
-    } else if (!priceReductionQualifies(currentPriceInCents, newPriceInCents)) {
-      return;
-    } else if (!priceIsStable()) {
-      return;
-    } else {
-      redPencilPromotion = new RedPencilPromotion(systemCalendar);
+    if (redPencilPromotion != null && !isExpired(redPencilPromotion)) {
+      if (
+        newPriceInCents > currentPriceInCents ||
+        newPriceInCents < redPencilPromotion.getStartingPriceInCents() * 0.70
+      ) {
+        redPencilPromotion = null;
+      }
+    } else if (
+      newPriceInCents <= currentPriceInCents * 0.95 &&
+      newPriceInCents >= currentPriceInCents * 0.70 &&
+      priceIsStable()
+    ) {
+      LocalDate today = systemCalendar.getDate();
+      redPencilPromotion = new RedPencilPromotion(today, newPriceInCents);
     }
   }
 
-  private boolean priceReductionQualifies(
-    int currentPriceInCents,
-    int newPriceInCents
-  ) {
-    return (
-      newPriceInCents <= currentPriceInCents * 0.95 &&
-      newPriceInCents >= currentPriceInCents * 0.70
-    );
+  private boolean isExpired(RedPencilPromotion redPencilPromotion) {
+    LocalDate today = systemCalendar.getDate();
+    LocalDate expirationDate = redPencilPromotion.getExpirationDate();
+
+    return today.isAfter(expirationDate);
   }
 
   private boolean priceIsStable() {
@@ -65,6 +66,6 @@ class Product {
   }
 
   public boolean isRedPencilPromotion() {
-    return redPencilPromotion != null && !redPencilPromotion.isExpired();
+    return redPencilPromotion != null && !isExpired(redPencilPromotion);
   }
 }

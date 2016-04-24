@@ -97,4 +97,15 @@ public class ProductTest {
     product.setPriceInCents(76);
     assertFalse(product.isRedPencilPromotion());
   }
+
+  @Test
+  public void redPencilPromotionEndsIfPriceDropsBelow30PercentStartingPrice() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(90);
+    product.setPriceInCents(80);
+    product.setPriceInCents(70);
+    product.setPriceInCents(60);
+    assertFalse(product.isRedPencilPromotion());
+  }
 }
