@@ -11,27 +11,49 @@ class Product {
     pricingHistory = new TreeMap<LocalDate, Integer>();
   }
 
-  public void setPriceInCents(int priceInCents) {
-    if (priceQualifiesForRedPencilPromotion(priceInCents)) {
-      redPencilPromotion = new RedPencilPromotion(systemCalendar);
+  public void setPriceInCents(int newPriceInCents) {
+    int currentPriceInCents;
+
+    if (!pricingHistory.isEmpty()) {
+      currentPriceInCents = pricingHistory.get(pricingHistory.lastKey());
+
+      if (newPriceInCents == currentPriceInCents) {
+        return;
+      }
+
+      determinePromotionStatus(currentPriceInCents, newPriceInCents);
     }
 
     LocalDate today = systemCalendar.getDate();
-    priceInCents = new Integer(priceInCents);
+    newPriceInCents = new Integer(newPriceInCents);
 
-    pricingHistory.put(today, priceInCents);
+    pricingHistory.put(today, newPriceInCents);
   }
 
-  private boolean priceQualifiesForRedPencilPromotion(int priceInCents) {
-    if (pricingHistory.isEmpty() || !priceIsStable()) {
-      return false;
+  private void determinePromotionStatus(
+    int currentPriceInCents,
+    int newPriceInCents
+  ) {
+    if (newPriceInCents > currentPriceInCents) {
+      redPencilPromotion = null;
+    } else if (redPencilPromotion != null && !redPencilPromotion.isExpired()) {
+      return;
+    } else if (!priceReductionQualifies(currentPriceInCents, newPriceInCents)) {
+      return;
+    } else if (!priceIsStable()) {
+      return;
+    } else {
+      redPencilPromotion = new RedPencilPromotion(systemCalendar);
     }
+  }
 
-    int previousPriceInCents = pricingHistory.get(pricingHistory.lastKey());
-    
+  private boolean priceReductionQualifies(
+    int currentPriceInCents,
+    int newPriceInCents
+  ) {
     return (
-      priceInCents <= previousPriceInCents * 0.95 &&
-      priceInCents >= previousPriceInCents * 0.70
+      newPriceInCents <= currentPriceInCents * 0.95 &&
+      newPriceInCents >= currentPriceInCents * 0.70
     );
   }
 

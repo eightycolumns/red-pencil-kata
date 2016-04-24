@@ -37,7 +37,7 @@ public class ProductTest {
   }
 
   @Test
-  public void priceReductionOf31PercentDoesStartRedPencilPromotion() {
+  public void priceReductionOf31PercentDoesNotStartRedPencilPromotion() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(69);
@@ -86,6 +86,15 @@ public class ProductTest {
     stubSystemCalendar.incrementDate(15);
     product.setPriceInCents(81);
     stubSystemCalendar.incrementDate(15);
+    assertFalse(product.isRedPencilPromotion());
+  }
+
+  @Test
+  public void redPencilPromotionEndsEarlyIfPriceIsIncreased() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(75);
+    product.setPriceInCents(76);
     assertFalse(product.isRedPencilPromotion());
   }
 }
