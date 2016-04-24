@@ -77,4 +77,15 @@ public class ProductTest {
     stubSystemCalendar.incrementDate(30);
     assertFalse(product.isRedPencilPromotion());
   }
+
+  @Test
+  public void furtherPriceReductionDoesNotExtendRedPencilPromotion() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(90);
+    stubSystemCalendar.incrementDate(15);
+    product.setPriceInCents(81);
+    stubSystemCalendar.incrementDate(15);
+    assertFalse(product.isRedPencilPromotion());
+  }
 }
