@@ -59,10 +59,26 @@ class Product {
   }
 
   private boolean priceIsStable() {
+    if (pricingHistory.isEmpty()) {
+      return false;
+    }
+
     LocalDate dateOfLastPriceChange = pricingHistory.lastKey();
     LocalDate today = systemCalendar.getDate();
 
-    return dateOfLastPriceChange.plusDays(29).isBefore(today);
+    if (dateOfLastPriceChange.plusDays(30).isAfter(today)) {
+      return false;
+    }
+
+    if (redPencilPromotion != null) {
+      LocalDate expirationDate = redPencilPromotion.getExpirationDate();
+
+      if (expirationDate.plusDays(30).isAfter(today)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public boolean isRedPencilPromotion() {

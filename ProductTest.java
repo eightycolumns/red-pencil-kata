@@ -45,7 +45,7 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionCannotStartAfter29DaysOfStablePricing() {
+  public void redPencilPromotionCannotStartOn29thDayOfStablePricing() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(29);
     product.setPriceInCents(75);
@@ -53,10 +53,32 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionCanStartAfter30DaysOfStablePricing() {
+  public void redPencilPromotionCanStartOn30thDayOfStablePricing() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(75);
+    assertTrue(product.isRedPencilPromotion());
+  }
+
+  @Test
+  public void redPencilPromotionCannotStartOn29thDayAfterPreviousPromotion() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(90);
+    stubSystemCalendar.incrementDate(29);
+    stubSystemCalendar.incrementDate(29);
+    product.setPriceInCents(81);
+    assertFalse(product.isRedPencilPromotion());
+  }
+
+  @Test
+  public void redPencilPromotionCanStartOn30thDayAfterPreviousPromotion() {
+    product.setPriceInCents(100);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(90);
+    stubSystemCalendar.incrementDate(29);
+    stubSystemCalendar.incrementDate(30);
+    product.setPriceInCents(81);
     assertTrue(product.isRedPencilPromotion());
   }
 
@@ -90,7 +112,7 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionEndsEarlyIfPriceIsIncreased() {
+  public void redPencilPromotionEndsEarlyIfPriceIncreases() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(75);
@@ -99,7 +121,7 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionEndsIfPriceDropsBelow30PercentStartingPrice() {
+  public void redPencilPromotionEndsIfPriceDropsBelow30PercentStartingPoint() {
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
     product.setPriceInCents(90);
