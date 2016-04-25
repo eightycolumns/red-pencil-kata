@@ -3,8 +3,6 @@ import java.time.LocalDate;
 class RedPencilPromotion {
   private static final int DURATION_IN_DAYS = 30;
 
-  private SystemCalendar systemCalendar;
-
   private LocalDate startingDate;
   private int startingPriceInCents;
   private LocalDate expirationDate;
