@@ -185,12 +185,10 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
-    product.setPriceInCents(90);
+    product.setPriceInCents(70);
 
     // Act
-    product.setPriceInCents(80);
-    product.setPriceInCents(70);
-    product.setPriceInCents(60);
+    product.setPriceInCents(69);
 
     // Assert
     assertFalse(product.isRedPencilPromotion());

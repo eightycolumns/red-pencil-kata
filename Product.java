@@ -37,7 +37,7 @@ class Product {
     if (redPencilPromotion != null && !isExpired(redPencilPromotion)) {
       if (
         newPriceInCents > currentPriceInCents ||
-        newPriceInCents < redPencilPromotion.getStartingPriceInCents() * 0.70
+        newPriceInCents < redPencilPromotion.getOriginalPriceInCents() * 0.70
       ) {
         redPencilPromotion = null;
       }
@@ -47,7 +47,7 @@ class Product {
       priceIsStable()
     ) {
       LocalDate today = systemCalendar.getDate();
-      redPencilPromotion = new RedPencilPromotion(today, newPriceInCents);
+      redPencilPromotion = new RedPencilPromotion(today, currentPriceInCents);
     }
   }
 
