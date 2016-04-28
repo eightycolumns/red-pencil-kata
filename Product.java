@@ -34,7 +34,7 @@ class Product {
     int currentPriceInCents,
     int newPriceInCents
   ) {
-    if (redPencilPromotion != null && !isExpired(redPencilPromotion)) {
+    if (redPencilPromotion != null && !redPencilPromotion.isExpired()) {
       if (
         newPriceInCents > currentPriceInCents ||
         newPriceInCents < redPencilPromotion.getOriginalPriceInCents() * 0.70
@@ -46,16 +46,11 @@ class Product {
       newPriceInCents >= currentPriceInCents * 0.70 &&
       priceIsStable()
     ) {
-      LocalDate today = systemCalendar.getDate();
-      redPencilPromotion = new RedPencilPromotion(today, currentPriceInCents);
+      redPencilPromotion = new RedPencilPromotion(
+        systemCalendar,
+        currentPriceInCents
+      );
     }
-  }
-
-  private boolean isExpired(RedPencilPromotion redPencilPromotion) {
-    LocalDate today = systemCalendar.getDate();
-    LocalDate expirationDate = redPencilPromotion.getExpirationDate();
-
-    return today.isAfter(expirationDate);
   }
 
   private boolean priceIsStable() {
@@ -82,6 +77,6 @@ class Product {
   }
 
   public boolean isRedPencilPromotion() {
-    return redPencilPromotion != null && !isExpired(redPencilPromotion);
+    return redPencilPromotion != null && !redPencilPromotion.isExpired();
   }
 }
