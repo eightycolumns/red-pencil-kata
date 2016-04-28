@@ -65,12 +65,11 @@ class Product {
       return false;
     }
 
-    if (redPencilPromotion != null) {
-      LocalDate expirationDate = redPencilPromotion.getExpirationDate();
-
-      if (expirationDate.plusDays(30).isAfter(today)) {
-        return false;
-      }
+    if (
+      redPencilPromotion != null &&
+      !redPencilPromotion.expiredThirtyDaysAgo()
+    ) {
+      return false;
     }
 
     return true;

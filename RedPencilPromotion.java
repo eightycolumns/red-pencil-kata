@@ -21,6 +21,11 @@ class RedPencilPromotion {
     return today.isAfter(expirationDate);
   }
 
+  public boolean expiredThirtyDaysAgo() {
+    LocalDate today = systemCalendar.getDate();
+    return expirationDate.plusDays(29).isBefore(today);
+  }
+
   public LocalDate getExpirationDate() {
     return expirationDate;
   }
