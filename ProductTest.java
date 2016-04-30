@@ -13,7 +13,7 @@ public class ProductTest {
   }
 
   @Test
-  public void redPencilPromotionCannotStartOn29thDayOfStablePricing() {
+  public void promotionCannotStartOn29thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
 
@@ -22,11 +22,11 @@ public class ProductTest {
     product.setPriceInCents(90);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionCanStartOn30thDayOfStablePricing() {
+  public void promotionCanStartOn30thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
 
@@ -35,11 +35,11 @@ public class ProductTest {
     product.setPriceInCents(90);
 
     // Assert
-    assertTrue(product.isRedPencilPromotion());
+    assertTrue(product.isPromotion());
   }
 
   @Test
-  public void priceReductionOf4PercentDoesNotStartRedPencilPromotion() {
+  public void priceReductionOf4PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -48,11 +48,11 @@ public class ProductTest {
     product.setPriceInCents(96);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void priceReductionOf5PercentDoesStartRedPencilPromotion() {
+  public void priceReductionOf5PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -61,11 +61,11 @@ public class ProductTest {
     product.setPriceInCents(95);
 
     // Assert
-    assertTrue(product.isRedPencilPromotion());
+    assertTrue(product.isPromotion());
   }
 
   @Test
-  public void priceReductionOf30PercentDoesStartRedPencilPromotion() {
+  public void priceReductionOf30PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -74,11 +74,11 @@ public class ProductTest {
     product.setPriceInCents(70);
 
     // Assert
-    assertTrue(product.isRedPencilPromotion());
+    assertTrue(product.isPromotion());
   }
 
   @Test
-  public void priceReductionOf31PercentDoesNotStartRedPencilPromotion() {
+  public void priceReductionOf31PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -87,11 +87,11 @@ public class ProductTest {
     product.setPriceInCents(69);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionLastsFor30Days() {
+  public void promotionLastsFor30Days() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -101,11 +101,11 @@ public class ProductTest {
     stubSystemCalendar.incrementDate(29);
 
     // Assert
-    assertTrue(product.isRedPencilPromotion());
+    assertTrue(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionExpiresOn31stDay() {
+  public void promotionExpiresOn31stDay() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -115,11 +115,11 @@ public class ProductTest {
     stubSystemCalendar.incrementDate(30);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionCannotStartOn29thDayAfterPreviousPromotion() {
+  public void promotionCannotStartOn29thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -131,11 +131,11 @@ public class ProductTest {
     product.setPriceInCents(81);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionCanStartOn30thDayAfterPreviousPromotion() {
+  public void promotionCanStartOn30thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -147,11 +147,11 @@ public class ProductTest {
     product.setPriceInCents(81);
 
     // Assert
-    assertTrue(product.isRedPencilPromotion());
+    assertTrue(product.isPromotion());
   }
 
   @Test
-  public void furtherPriceReductionDoesNotExtendRedPencilPromotion() {
+  public void furtherPriceReductionDoesNotExtendPromotion() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -163,11 +163,11 @@ public class ProductTest {
     stubSystemCalendar.incrementDate(15);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionEndsEarlyIfPriceIncreases() {
+  public void promotionEndsEarlyIfPriceIncreases() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -177,11 +177,11 @@ public class ProductTest {
     product.setPriceInCents(76);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 
   @Test
-  public void redPencilPromotionEndsIfPriceDropsBelow30PercentStartingPoint() {
+  public void promotionEndsIfPriceDropsBelow30PercentStartingPoint() {
     // Arrange
     product.setPriceInCents(100);
     stubSystemCalendar.incrementDate(30);
@@ -191,6 +191,6 @@ public class ProductTest {
     product.setPriceInCents(69);
 
     // Assert
-    assertFalse(product.isRedPencilPromotion());
+    assertFalse(product.isPromotion());
   }
 }
