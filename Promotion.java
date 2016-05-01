@@ -2,6 +2,7 @@ import java.time.LocalDate;
 
 class Promotion {
   private static final int DURATION_IN_DAYS = 30;
+
   private static SystemCalendar systemCalendar;
 
   public static void setSystemCalendar(SystemCalendar newSystemCalendar) {

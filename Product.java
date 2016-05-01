@@ -19,14 +19,6 @@ class Product {
     }
   }
 
-  public Product(int priceInCents) {
-    if (systemCalendar == null) {
-      systemCalendar = new SystemCalendar();
-    }
-
-    currentPrice = new Price(priceInCents);
-  }
-
   public void setPriceInCents(int priceInCents) {
     Price newPrice = new Price(priceInCents);
 
@@ -56,40 +48,45 @@ class Product {
   }
 
   private boolean priceReducedTooMuch() {
-    if (currentPrice.inCents() < previousPrice.inCents() * 0.70) {
-      return true;
+    if (isPromotion()) {
+      return priceReducedTooMuchDuringPromotion();
+    } else {
+      return priceReducedTooMuchNotDuringPromotion();
     }
-
-    if (
-      isPromotion() &&
-      currentPrice.inCents() < prePromotionPrice.inCents() * 0.70
-    ) {
-      return true;
-    }
-
-    return false;
   }
 
   public boolean isPromotion() {
     return promotion != null && !promotion.hasExpired();
   }
 
+  private boolean priceReducedTooMuchDuringPromotion() {
+    return currentPrice.inCents() < prePromotionPrice.inCents() * 0.70;
+  }
+
+  private boolean priceReducedTooMuchNotDuringPromotion() {
+    return currentPrice.inCents() < previousPrice.inCents() * 0.70;
+  }
+
   private boolean priceIsStable() {
-    if (previousPrice == null) {
-      return false;
+    if (promotion == null) {
+      return priceIsStableBeforePromotion();
+    } else {
+      return priceIsStableAfterPromotion();
     }
+  }
 
-    LocalDate today = systemCalendar.getDate();
+  private boolean priceIsStableBeforePromotion() {
+    return (
+      previousPrice != null &&
+      previousPrice.dateSet().plusDays(29).isBefore(currentPrice.dateSet())
+    );
+  }
 
-    if (previousPrice.dateSet().plusDays(30).isAfter(currentPrice.dateSet())) {
-      return false;
-    }
-
-    if (promotion != null && !promotion.expiredThirtyDaysAgo()) {
-      return false;
-    }
-
-    return true;
+  private boolean priceIsStableAfterPromotion() {
+    return (
+      promotion.expiredThirtyDaysAgo() &&
+      previousPrice.dateSet().plusDays(29).isBefore(currentPrice.dateSet())
+    );
   }
 
   private boolean priceReducedEnough() {
