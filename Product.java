@@ -1,7 +1,11 @@
 import java.time.LocalDate;
 
 class Product {
-  private SystemCalendar systemCalendar;
+  private static SystemCalendar systemCalendar;
+
+  public static void setSystemCalendar(SystemCalendar newSystemCalendar) {
+    systemCalendar = newSystemCalendar;
+  }
 
   private Price currentPrice;
   private Price previousPrice;
@@ -9,13 +13,22 @@ class Product {
 
   private Promotion promotion;
 
-  public Product(SystemCalendar systemCalendar) {
-    this.systemCalendar = systemCalendar;
+  public Product() {
+    if (systemCalendar == null) {
+      systemCalendar = new SystemCalendar();
+    }
+  }
+
+  public Product(int priceInCents) {
+    if (systemCalendar == null) {
+      systemCalendar = new SystemCalendar();
+    }
+
+    currentPrice = new Price(priceInCents);
   }
 
   public void setPriceInCents(int priceInCents) {
-    LocalDate today = systemCalendar.getDate();
-    Price newPrice = new Price(today, priceInCents);
+    Price newPrice = new Price(priceInCents);
 
     if (currentPrice == null) {
       currentPrice = newPrice;
@@ -32,7 +45,7 @@ class Product {
     if (priceReducedTooMuch()) {
       promotion = null;
     } else if (priceIsStable() && priceReducedEnough()) {
-      promotion = new Promotion(systemCalendar);
+      promotion = new Promotion();
       prePromotionPrice = previousPrice;
     }
   }
@@ -58,7 +71,7 @@ class Product {
   }
 
   public boolean isPromotion() {
-    return promotion != null && !promotion.isExpired();
+    return promotion != null && !promotion.hasExpired();
   }
 
   private boolean priceIsStable() {
@@ -68,7 +81,7 @@ class Product {
 
     LocalDate today = systemCalendar.getDate();
 
-    if (previousPrice.getDate().plusDays(30).isAfter(currentPrice.getDate())) {
+    if (previousPrice.dateSet().plusDays(30).isAfter(currentPrice.dateSet())) {
       return false;
     }
 

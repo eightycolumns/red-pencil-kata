@@ -3,13 +3,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ProductTest {
-  private StubSystemCalendar stubSystemCalendar;
+  private StubSystemCalendar systemCalendar;
   private Product product;
 
   @Before
   public void init() {
-    stubSystemCalendar = new StubSystemCalendar();
-    product = new Product(stubSystemCalendar);
+    systemCalendar = new StubSystemCalendar();
+
+    Price.setSystemCalendar(systemCalendar);
+    Product.setSystemCalendar(systemCalendar);
+    Promotion.setSystemCalendar(systemCalendar);
+
+    product = new Product();
   }
 
   @Test
@@ -18,7 +23,7 @@ public class ProductTest {
     product.setPriceInCents(100);
 
     // Act
-    stubSystemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
     product.setPriceInCents(90);
 
     // Assert
@@ -31,7 +36,7 @@ public class ProductTest {
     product.setPriceInCents(100);
 
     // Act
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
     // Assert
@@ -42,7 +47,7 @@ public class ProductTest {
   public void priceReductionOf4PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
 
     // Act
     product.setPriceInCents(96);
@@ -55,7 +60,7 @@ public class ProductTest {
   public void priceReductionOf5PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
 
     // Act
     product.setPriceInCents(95);
@@ -68,7 +73,7 @@ public class ProductTest {
   public void priceReductionOf30PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
 
     // Act
     product.setPriceInCents(70);
@@ -81,7 +86,7 @@ public class ProductTest {
   public void priceReductionOf31PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
 
     // Act
     product.setPriceInCents(69);
@@ -94,11 +99,11 @@ public class ProductTest {
   public void promotionLastsFor30Days() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
     // Act
-    stubSystemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
 
     // Assert
     assertTrue(product.isPromotion());
@@ -108,11 +113,11 @@ public class ProductTest {
   public void promotionExpiresOn31stDay() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
     // Act
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -122,12 +127,12 @@ public class ProductTest {
   public void promotionCannotStartOn29thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
-    stubSystemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
 
     // Act
-    stubSystemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
     product.setPriceInCents(81);
 
     // Assert
@@ -138,12 +143,12 @@ public class ProductTest {
   public void promotionCanStartOn30thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
-    stubSystemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
 
     // Act
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(81);
 
     // Assert
@@ -154,13 +159,13 @@ public class ProductTest {
   public void furtherPriceReductionDoesNotExtendPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
     // Act
-    stubSystemCalendar.incrementDate(15);
+    systemCalendar.incrementDate(15);
     product.setPriceInCents(81);
-    stubSystemCalendar.incrementDate(15);
+    systemCalendar.incrementDate(15);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -170,7 +175,7 @@ public class ProductTest {
   public void promotionEndsEarlyIfPriceIncreases() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(75);
 
     // Act
@@ -184,7 +189,7 @@ public class ProductTest {
   public void promotionEndsIfPriceDropsBelow30PercentStartingPoint() {
     // Arrange
     product.setPriceInCents(100);
-    stubSystemCalendar.incrementDate(30);
+    systemCalendar.incrementDate(30);
     product.setPriceInCents(70);
 
     // Act

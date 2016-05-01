@@ -1,19 +1,29 @@
 import java.time.LocalDate;
 
 class Price {
-  private LocalDate date;
-  private int priceInCents;
+  private static SystemCalendar systemCalendar;
 
-  public Price(LocalDate date, int priceInCents) {
-    this.date = date;
-    this.priceInCents = priceInCents;
+  public static void setSystemCalendar(SystemCalendar newSystemCalendar) {
+    systemCalendar = newSystemCalendar;
   }
 
-  public LocalDate getDate() {
-    return date;
+  private int priceInCents;
+  private LocalDate datePriceSet;
+
+  public Price(int priceInCents) {
+    if (systemCalendar == null) {
+      systemCalendar = new SystemCalendar();
+    }
+
+    this.priceInCents = priceInCents;
+    datePriceSet = systemCalendar.getDate();
   }
 
   public int inCents() {
     return priceInCents;
+  }
+
+  public LocalDate dateSet() {
+    return datePriceSet;
   }
 }
