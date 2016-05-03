@@ -49,9 +49,9 @@ class Product {
 
   private boolean priceReducedTooMuch() {
     if (isPromotion()) {
-      return priceReducedTooMuchDuringPromotion();
+      return newPriceIsLessThan70PercentOf(prePromotionPrice.inCents());
     } else {
-      return priceReducedTooMuchNotDuringPromotion();
+      return newPriceIsLessThan70PercentOf(previousPrice.inCents());
     }
   }
 
@@ -59,12 +59,8 @@ class Product {
     return promotion != null && !promotion.hasExpired();
   }
 
-  private boolean priceReducedTooMuchDuringPromotion() {
-    return currentPrice.inCents() < prePromotionPrice.inCents() * 0.70;
-  }
-
-  private boolean priceReducedTooMuchNotDuringPromotion() {
-    return currentPrice.inCents() < previousPrice.inCents() * 0.70;
+  public boolean newPriceIsLessThan70PercentOf(int priceInCents) {
+    return currentPrice.inCents() < (int)Math.round(priceInCents * 0.7);
   }
 
   private boolean priceIsStable() {
