@@ -59,7 +59,7 @@ class Product {
     return promotion != null && !promotion.hasExpired();
   }
 
-  public boolean newPriceIsLessThan70PercentOf(Price price) {
+  private boolean newPriceIsLessThan70PercentOf(Price price) {
     int priceInCents = price.inCents();
     return currentPrice.inCents() < (int)Math.round(priceInCents * 0.7);
   }
