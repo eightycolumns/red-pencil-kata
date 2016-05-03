@@ -1,1 +1,3 @@
 *.class
+
+.run-all-tests.sh
