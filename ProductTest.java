@@ -10,7 +10,6 @@ public class ProductTest {
   public void init() {
     systemCalendar = new StubSystemCalendar();
 
-    Price.setSystemCalendar(systemCalendar);
     Product.setSystemCalendar(systemCalendar);
     Promotion.setSystemCalendar(systemCalendar);
 

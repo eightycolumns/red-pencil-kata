@@ -1,29 +1,21 @@
 import java.time.LocalDate;
 
 class Price {
-  private static SystemCalendar systemCalendar;
-
-  public static void setSystemCalendar(SystemCalendar newSystemCalendar) {
-    systemCalendar = newSystemCalendar;
-  }
+  private SystemCalendar systemCalendar;
 
   private int priceInCents;
-  private LocalDate datePriceSet;
+  private LocalDate datePriceWasSet;
 
-  public Price(int priceInCents) {
-    if (systemCalendar == null) {
-      systemCalendar = new SystemCalendar();
-    }
-
+  public Price(int priceInCents, LocalDate datePriceWasSet) {
     this.priceInCents = priceInCents;
-    datePriceSet = systemCalendar.getDate();
+    this.datePriceWasSet = datePriceWasSet;
   }
 
-  public int inCents() {
+  public int getPriceInCents() {
     return priceInCents;
   }
 
-  public LocalDate dateSet() {
-    return datePriceSet;
+  public LocalDate getDatePriceWasSet() {
+    return datePriceWasSet;
   }
 }

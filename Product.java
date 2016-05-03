@@ -20,13 +20,14 @@ class Product {
   }
 
   public void setPriceInCents(int priceInCents) {
-    Price newPrice = new Price(priceInCents);
+    LocalDate today = systemCalendar.getDate();
+    Price newPrice = new Price(priceInCents, today);
 
     if (currentPrice == null) {
       currentPrice = newPrice;
-    } else if (newPrice.inCents() < currentPrice.inCents()) {
+    } else if (newPrice.getPriceInCents() < currentPrice.getPriceInCents()) {
       reducePrice(newPrice);
-    } else if (newPrice.inCents() > currentPrice.inCents()) {
+    } else if (newPrice.getPriceInCents() > currentPrice.getPriceInCents()) {
       increasePrice(newPrice);
     }
   }
@@ -60,8 +61,8 @@ class Product {
   }
 
   private boolean newPriceIsLessThan70PercentOf(Price price) {
-    int priceInCents = price.inCents();
-    return currentPrice.inCents() < (int)Math.round(priceInCents * 0.7);
+    int priceInCents = price.getPriceInCents();
+    return currentPrice.getPriceInCents() < (int)Math.round(priceInCents * 0.7);
   }
 
   private boolean priceIsStable() {
@@ -73,21 +74,30 @@ class Product {
   }
 
   private boolean priceIsStableBeforePromotion() {
+    LocalDate datePreviousPriceWasSet = previousPrice.getDatePriceWasSet();
+    LocalDate dateCurrentPriceWasSet = currentPrice.getDatePriceWasSet();
+
     return (
       previousPrice != null &&
-      previousPrice.dateSet().plusDays(29).isBefore(currentPrice.dateSet())
+      datePreviousPriceWasSet.plusDays(29).isBefore(dateCurrentPriceWasSet)
     );
   }
 
   private boolean priceIsStableAfterPromotion() {
+    LocalDate datePreviousPriceWasSet = previousPrice.getDatePriceWasSet();
+    LocalDate dateCurrentPriceWasSet = currentPrice.getDatePriceWasSet();
+
     return (
       promotion.expiredThirtyDaysAgo() &&
-      previousPrice.dateSet().plusDays(29).isBefore(currentPrice.dateSet())
+      datePreviousPriceWasSet.plusDays(29).isBefore(dateCurrentPriceWasSet)
     );
   }
 
   private boolean priceIsReducedEnoughToStartPromotion() {
-    return currentPrice.inCents() <= previousPrice.inCents() * 0.95;
+    int currentPriceInCents = currentPrice.getPriceInCents();
+    int previousPriceInCents = previousPrice.getPriceInCents();
+
+    return currentPriceInCents <= (int)Math.round(previousPriceInCents * 0.95);
   }
 
   private void increasePrice(Price newPrice) {
