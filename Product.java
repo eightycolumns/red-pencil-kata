@@ -34,9 +34,9 @@ class Product {
   private void reducePrice(Price newPrice) {
     changePrice(newPrice);
 
-    if (priceReducedTooMuch()) {
+    if (priceReducedEnoughToEndPromotion()) {
       promotion = null;
-    } else if (priceIsStable() && priceReducedEnough()) {
+    } else if (priceIsStable() && priceReducedEnoughToStartPromotion()) {
       promotion = new Promotion();
       prePromotionPrice = previousPrice;
     }
@@ -47,7 +47,7 @@ class Product {
     currentPrice = newPrice;
   }
 
-  private boolean priceReducedTooMuch() {
+  private boolean priceReducedEnoughToEndPromotion() {
     if (isPromotion()) {
       return newPriceIsLessThan70PercentOf(prePromotionPrice);
     } else {
@@ -86,7 +86,7 @@ class Product {
     );
   }
 
-  private boolean priceReducedEnough() {
+  private boolean priceReducedEnoughToStartPromotion() {
     return currentPrice.inCents() <= previousPrice.inCents() * 0.95;
   }
 
