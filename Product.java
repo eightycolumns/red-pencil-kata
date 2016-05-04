@@ -1,11 +1,7 @@
 import java.time.LocalDate;
 
 class Product {
-  private static SystemCalendar systemCalendar;
-
-  public static void setSystemCalendar(SystemCalendar newSystemCalendar) {
-    systemCalendar = newSystemCalendar;
-  }
+  private SystemCalendar systemCalendar;
 
   private Price currentPrice;
   private Price previousPrice;
@@ -13,10 +9,8 @@ class Product {
 
   private Promotion promotion;
 
-  public Product() {
-    if (systemCalendar == null) {
-      systemCalendar = new SystemCalendar();
-    }
+  public Product(SystemCalendar systemCalendar) {
+    this.systemCalendar = systemCalendar;
   }
 
   public void setPriceInCents(int priceInCents) {
