@@ -1,8 +1,6 @@
 import java.time.LocalDate;
 
 class Price {
-  private SystemCalendar systemCalendar;
-
   private int priceInCents;
   private LocalDate datePriceWasSet;
 
