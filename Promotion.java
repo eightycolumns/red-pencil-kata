@@ -1,11 +1,11 @@
 import java.time.LocalDate;
 
-class Promotion {
+final class Promotion {
   private static final int DURATION_IN_DAYS = 30;
 
-  private SystemCalendar systemCalendar;
+  private final SystemCalendar systemCalendar;
 
-  private LocalDate expirationDate;
+  private final LocalDate expirationDate;
 
   public Promotion(SystemCalendar systemCalendar) {
     this.systemCalendar = systemCalendar;
