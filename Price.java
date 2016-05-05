@@ -1,8 +1,8 @@
 import java.time.LocalDate;
 
-class Price {
-  private int priceInCents;
-  private LocalDate datePriceWasSet;
+final class Price {
+  private final int priceInCents;
+  private final LocalDate datePriceWasSet;
 
   public Price(int priceInCents, LocalDate datePriceWasSet) {
     this.priceInCents = priceInCents;
