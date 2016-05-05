@@ -19,9 +19,9 @@ class Product {
 
     if (currentPrice == null) {
       currentPrice = newPrice;
-    } else if (newPrice.getPriceInCents() < currentPrice.getPriceInCents()) {
+    } else if (newPrice.isLessThanPrice(currentPrice)) {
       reducePrice(newPrice);
-    } else if (newPrice.getPriceInCents() > currentPrice.getPriceInCents()) {
+    } else if (newPrice.isGreaterThanPrice(currentPrice)) {
       increasePrice(newPrice);
     }
   }
@@ -44,19 +44,14 @@ class Product {
 
   private boolean priceIsReducedEnoughToEndPromotion() {
     if (isPromotion()) {
-      return newPriceIsLessThan70PercentOf(prePromotionPrice);
+      return currentPrice.isLessThanPercentOfPrice(70, prePromotionPrice);
     } else {
-      return newPriceIsLessThan70PercentOf(previousPrice);
+      return currentPrice.isLessThanPercentOfPrice(70, previousPrice);
     }
   }
 
   public boolean isPromotion() {
     return promotion != null && !promotion.hasExpired();
-  }
-
-  private boolean newPriceIsLessThan70PercentOf(Price price) {
-    int priceInCents = price.getPriceInCents();
-    return currentPrice.getPriceInCents() < (int)Math.round(priceInCents * 0.7);
   }
 
   private boolean priceIsStable() {
@@ -88,10 +83,7 @@ class Product {
   }
 
   private boolean priceIsReducedEnoughToStartPromotion() {
-    int currentPriceInCents = currentPrice.getPriceInCents();
-    int previousPriceInCents = previousPrice.getPriceInCents();
-
-    return currentPriceInCents <= (int)Math.round(previousPriceInCents * 0.95);
+    return !currentPrice.isGreaterThanPercentOfPrice(95, previousPrice);
   }
 
   private void increasePrice(Price newPrice) {

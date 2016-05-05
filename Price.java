@@ -16,4 +16,28 @@ class Price {
   public LocalDate getDatePriceWasSet() {
     return datePriceWasSet;
   }
+
+  public boolean isEqualToPrice(Price price) {
+    return priceInCents == price.getPriceInCents();
+  }
+
+  public boolean isEqualToPercentOfPrice(double percent, Price price) {
+    return priceInCents == Math.round(percent / 100 * price.getPriceInCents());
+  }
+
+  public boolean isLessThanPrice(Price price) {
+    return priceInCents < price.getPriceInCents();
+  }
+
+  public boolean isLessThanPercentOfPrice(double percent, Price price) {
+    return priceInCents < Math.round(percent / 100 * price.getPriceInCents());
+  }
+
+  public boolean isGreaterThanPrice(Price price) {
+    return priceInCents > price.getPriceInCents();
+  }
+
+  public boolean isGreaterThanPercentOfPrice(double percent, Price price) {
+    return priceInCents > Math.round(percent / 100 * price.getPriceInCents());
+  }
 }
