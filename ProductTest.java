@@ -9,9 +9,6 @@ public class ProductTest {
   @Before
   public void init() {
     systemCalendar = new StubSystemCalendar();
-
-    Promotion.setSystemCalendar(systemCalendar);
-
     product = new Product(systemCalendar);
   }
 

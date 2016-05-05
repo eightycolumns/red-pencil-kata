@@ -32,7 +32,7 @@ class Product {
     if (priceIsReducedEnoughToEndPromotion()) {
       promotion = null;
     } else if (priceIsStable() && priceIsReducedEnoughToStartPromotion()) {
-      promotion = new Promotion();
+      promotion = new Promotion(systemCalendar);
       prePromotionPrice = previousPrice;
     }
   }
