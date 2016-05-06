@@ -18,7 +18,7 @@ public class ProductTest {
   public void promotionCannotStartOn29thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(29);
+    stepForwardTo29thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(90);
@@ -31,7 +31,7 @@ public class ProductTest {
   public void promotionCanStartOn30thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(90);
@@ -44,7 +44,7 @@ public class ProductTest {
   public void priceReductionOf4PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(96);
@@ -57,7 +57,7 @@ public class ProductTest {
   public void priceReductionOf5PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(95);
@@ -70,7 +70,7 @@ public class ProductTest {
   public void priceReductionOf30PercentDoesStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(70);
@@ -83,7 +83,7 @@ public class ProductTest {
   public void priceReductionOf31PercentDoesNotStartPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(69);
@@ -96,7 +96,7 @@ public class ProductTest {
   public void promotionExpiresInThirtyDays() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
 
     // Act
     product.setPriceInCents(90);
@@ -110,10 +110,10 @@ public class ProductTest {
   public void promotionCannotStartOn29thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
     product.setPriceInCents(90);
-    systemCalendar.incrementDate(29);
-    systemCalendar.incrementDate(29);
+    stepForwardToLastDayOfPromotion();
+    stepForwardTo29thDayAfterPromotion();
 
     // Act
     product.setPriceInCents(81);
@@ -126,10 +126,10 @@ public class ProductTest {
   public void promotionCanStartOn30thDayAfterPreviousPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
     product.setPriceInCents(90);
-    systemCalendar.incrementDate(29);
-    systemCalendar.incrementDate(30);
+    stepForwardToLastDayOfPromotion();
+    stepForwardTo30thDayAfterPromotion();
 
     // Act
     product.setPriceInCents(81);
@@ -142,23 +142,23 @@ public class ProductTest {
   public void furtherPriceReductionDoesNotExtendPromotion() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
     product.setPriceInCents(90);
-    systemCalendar.incrementDate(29);
-    LocalDate expirationDate = product.getPromotionExpirationDate();
+    stepForwardToLastDayOfPromotion();
+    LocalDate promotionExpirationDate = product.getPromotionExpirationDate();
 
     // Act
     product.setPriceInCents(81);
 
     // Assert
-    assertEquals(product.getPromotionExpirationDate(), expirationDate);
+    assertEquals(product.getPromotionExpirationDate(), promotionExpirationDate);
   }
 
   @Test
   public void promotionEndsEarlyIfPriceIncreases() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
     product.setPriceInCents(75);
 
     // Act
@@ -172,7 +172,7 @@ public class ProductTest {
   public void promotionEndsIfPriceDropsBelow30PercentStartingPoint() {
     // Arrange
     product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
+    stepForwardTo30thDayOfStablePricing();
     product.setPriceInCents(70);
 
     // Act
@@ -180,5 +180,25 @@ public class ProductTest {
 
     // Assert
     assertFalse(product.isPromotion());
+  }
+
+  private void stepForwardTo29thDayOfStablePricing() {
+    systemCalendar.incrementDate(29);
+  }
+
+  private void stepForwardTo30thDayOfStablePricing() {
+    systemCalendar.incrementDate(30);
+  }
+
+  private void stepForwardToLastDayOfPromotion() {
+    systemCalendar.incrementDate(29);
+  }
+
+  private void stepForwardTo29thDayAfterPromotion() {
+    systemCalendar.incrementDate(29);
+  }
+
+  private void stepForwardTo30thDayAfterPromotion() {
+    systemCalendar.incrementDate(30);
   }
 }
