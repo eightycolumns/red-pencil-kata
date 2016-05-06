@@ -14,6 +14,10 @@ final class Promotion {
     expirationDate = today.plusDays(DURATION_IN_DAYS - 1);
   }
 
+  public LocalDate getExpirationDate() {
+    return expirationDate;
+  }
+
   public boolean hasExpired() {
     LocalDate today = systemCalendar.getDate();
     return today.isAfter(expirationDate);

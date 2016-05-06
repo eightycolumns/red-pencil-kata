@@ -93,4 +93,8 @@ class Product {
       promotion = null;
     }
   }
+
+  public LocalDate getPromotionExpirationDate() {
+    return promotion.getExpirationDate();
+  }
 }

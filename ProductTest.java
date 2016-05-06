@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -91,31 +93,17 @@ public class ProductTest {
   }
 
   @Test
-  public void promotionLastsFor30Days() {
+  public void promotionExpiresInThirtyDays() {
     // Arrange
     product.setPriceInCents(100);
     systemCalendar.incrementDate(30);
-    product.setPriceInCents(90);
 
     // Act
-    systemCalendar.incrementDate(29);
-
-    // Assert
-    assertTrue(product.isPromotion());
-  }
-
-  @Test
-  public void promotionExpiresOn31stDay() {
-    // Arrange
-    product.setPriceInCents(100);
-    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
-    // Act
-    systemCalendar.incrementDate(30);
-
     // Assert
-    assertFalse(product.isPromotion());
+    LocalDate expirationDate = product.getPromotionExpirationDate();
+    assertEquals(systemCalendar.getDate().plusDays(29), expirationDate);
   }
 
   @Test
