@@ -144,14 +144,14 @@ public class ProductTest {
     product.setPriceInCents(100);
     systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
+    systemCalendar.incrementDate(29);
+    LocalDate expirationDate = product.getPromotionExpirationDate();
 
     // Act
-    systemCalendar.incrementDate(15);
     product.setPriceInCents(81);
-    systemCalendar.incrementDate(15);
 
     // Assert
-    assertFalse(product.isPromotion());
+    assertEquals(product.getPromotionExpirationDate(), expirationDate);
   }
 
   @Test
