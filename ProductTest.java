@@ -16,9 +16,9 @@ public class ProductTest {
   public void promotionCannotStartOn29thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
+    systemCalendar.incrementDate(29);
 
     // Act
-    systemCalendar.incrementDate(29);
     product.setPriceInCents(90);
 
     // Assert
@@ -29,9 +29,9 @@ public class ProductTest {
   public void promotionCanStartOn30thDayOfStablePricing() {
     // Arrange
     product.setPriceInCents(100);
+    systemCalendar.incrementDate(30);
 
     // Act
-    systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
 
     // Assert
@@ -125,9 +125,9 @@ public class ProductTest {
     systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
     systemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(29);
 
     // Act
-    systemCalendar.incrementDate(29);
     product.setPriceInCents(81);
 
     // Assert
@@ -141,9 +141,9 @@ public class ProductTest {
     systemCalendar.incrementDate(30);
     product.setPriceInCents(90);
     systemCalendar.incrementDate(29);
+    systemCalendar.incrementDate(30);
 
     // Act
-    systemCalendar.incrementDate(30);
     product.setPriceInCents(81);
 
     // Assert
