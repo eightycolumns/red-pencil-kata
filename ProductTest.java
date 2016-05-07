@@ -183,22 +183,27 @@ public class ProductTest {
   }
 
   private void stepForwardTo29thDayOfStablePricing() {
-    dateProvider.incrementDate(29);
+    LocalDate today = dateProvider.getDate();
+    dateProvider.setDate(today.plusDays(29));
   }
 
   private void stepForwardTo30thDayOfStablePricing() {
-    dateProvider.incrementDate(30);
+    LocalDate today = dateProvider.getDate();
+    dateProvider.setDate(today.plusDays(30));
   }
 
   private void stepForwardToLastDayOfPromotion() {
-    dateProvider.incrementDate(29);
+    LocalDate today = dateProvider.getDate();
+    dateProvider.setDate(today.plusDays(29));
   }
 
   private void stepForwardTo29thDayAfterPromotion() {
-    dateProvider.incrementDate(29);
+    LocalDate today = dateProvider.getDate();
+    dateProvider.setDate(today.plusDays(29));
   }
 
   private void stepForwardTo30thDayAfterPromotion() {
-    dateProvider.incrementDate(30);
+    LocalDate today = dateProvider.getDate();
+    dateProvider.setDate(today.plusDays(30));
   }
 }

@@ -55,31 +55,14 @@ class Product {
   }
 
   private boolean priceIsStable() {
-    if (promotion == null) {
-      return priceIsStableBeforePromotion();
-    } else {
-      return priceIsStableAfterPromotion();
+    if (promotion != null && !promotion.expiredThirtyDaysAgo()) {
+      return false;
     }
-  }
 
-  private boolean priceIsStableBeforePromotion() {
     LocalDate datePreviousPriceWasSet = previousPrice.getDatePriceWasSet();
     LocalDate dateCurrentPriceWasSet = currentPrice.getDatePriceWasSet();
 
-    return (
-      previousPrice != null &&
-      datePreviousPriceWasSet.plusDays(29).isBefore(dateCurrentPriceWasSet)
-    );
-  }
-
-  private boolean priceIsStableAfterPromotion() {
-    LocalDate datePreviousPriceWasSet = previousPrice.getDatePriceWasSet();
-    LocalDate dateCurrentPriceWasSet = currentPrice.getDatePriceWasSet();
-
-    return (
-      promotion.expiredThirtyDaysAgo() &&
-      datePreviousPriceWasSet.plusDays(29).isBefore(dateCurrentPriceWasSet)
-    );
+    return dateCurrentPriceWasSet.isAfter(datePreviousPriceWasSet.plusDays(29));
   }
 
   private boolean priceIsReducedEnoughToStartPromotion() {

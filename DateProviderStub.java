@@ -1,18 +1,14 @@
 import java.time.LocalDate;
 
 class DateProviderStub extends DateProvider {
-  private int modifier = 0;
+  private LocalDate date;
 
-  public void incrementDate(int number) {
-    modifier += number;
-  }
-
-  public void decrementDate(int number) {
-    modifier -= number;
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   @Override
   public LocalDate getDate() {
-    return LocalDate.now().plusDays(modifier);
+    return (date == null) ? LocalDate.now() : date;
   }
 }
