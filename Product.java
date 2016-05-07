@@ -20,13 +20,13 @@ class Product {
     if (currentPrice == null) {
       currentPrice = newPrice;
     } else if (newPrice.isLessThanPrice(currentPrice)) {
-      reducePrice(newPrice);
+      decreasePrice(newPrice);
     } else if (newPrice.isGreaterThanPrice(currentPrice)) {
       increasePrice(newPrice);
     }
   }
 
-  private void reducePrice(Price newPrice) {
+  private void decreasePrice(Price newPrice) {
     changePrice(newPrice);
 
     if (priceIsReducedEnoughToEndPromotion()) {
@@ -96,5 +96,21 @@ class Product {
 
   public LocalDate getPromotionExpirationDate() {
     return promotion.getExpirationDate();
+  }
+
+  public void increasePriceByPercent(double percent) {
+    LocalDate today = systemCalendar.getDate();
+    int newPriceInCents = currentPrice.getPriceInCents();
+    newPriceInCents += (int)Math.round(percent / 100 * newPriceInCents);        // Cast necessary?
+    Price newPrice = new Price(newPriceInCents, today);
+    increasePrice(newPrice);
+  }
+
+  public void decreasePriceByPercent(double percent) {
+    LocalDate today = systemCalendar.getDate();
+    int newPriceInCents = currentPrice.getPriceInCents();
+    newPriceInCents -= (int)Math.round(percent / 100 * newPriceInCents);        // Cast necessary?
+    Price newPrice = new Price(newPriceInCents, today);
+    decreasePrice(newPrice);
   }
 }

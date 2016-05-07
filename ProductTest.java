@@ -21,7 +21,7 @@ public class ProductTest {
     stepForwardTo29thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -34,7 +34,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
 
     // Assert
     assertTrue(product.isPromotion());
@@ -47,7 +47,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(96);
+    product.decreasePriceByPercent(4);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -60,7 +60,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(95);
+    product.decreasePriceByPercent(5);
 
     // Assert
     assertTrue(product.isPromotion());
@@ -73,7 +73,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(70);
+    product.decreasePriceByPercent(30);
 
     // Assert
     assertTrue(product.isPromotion());
@@ -86,7 +86,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(69);
+    product.decreasePriceByPercent(31);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -99,7 +99,7 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
 
     // Act
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
 
     // Assert
     LocalDate expirationDate = product.getPromotionExpirationDate();
@@ -111,12 +111,12 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
     stepForwardToLastDayOfPromotion();
     stepForwardTo29thDayAfterPromotion();
 
     // Act
-    product.setPriceInCents(81);
+    product.decreasePriceByPercent(10);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -127,12 +127,12 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
     stepForwardToLastDayOfPromotion();
     stepForwardTo30thDayAfterPromotion();
 
     // Act
-    product.setPriceInCents(81);
+    product.decreasePriceByPercent(10);
 
     // Assert
     assertTrue(product.isPromotion());
@@ -143,12 +143,12 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
-    product.setPriceInCents(90);
+    product.decreasePriceByPercent(10);
     stepForwardToLastDayOfPromotion();
     LocalDate promotionExpirationDate = product.getPromotionExpirationDate();
 
     // Act
-    product.setPriceInCents(81);
+    product.decreasePriceByPercent(10);
 
     // Assert
     assertEquals(product.getPromotionExpirationDate(), promotionExpirationDate);
@@ -159,10 +159,10 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
-    product.setPriceInCents(75);
+    product.decreasePriceByPercent(10);
 
     // Act
-    product.setPriceInCents(76);
+    product.increasePriceByPercent(1);
 
     // Assert
     assertFalse(product.isPromotion());
@@ -173,10 +173,10 @@ public class ProductTest {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
-    product.setPriceInCents(70);
+    product.decreasePriceByPercent(70);
 
     // Act
-    product.setPriceInCents(69);
+    product.decreasePriceByPercent(1);
 
     // Assert
     assertFalse(product.isPromotion());
