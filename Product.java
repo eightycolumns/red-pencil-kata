@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 class Product {
-  private SystemCalendar systemCalendar;
+  private DateProvider dateProvider;
 
   private Price currentPrice;
   private Price previousPrice;
@@ -9,12 +9,12 @@ class Product {
 
   private Promotion promotion;
 
-  public Product(SystemCalendar systemCalendar) {
-    this.systemCalendar = systemCalendar;
+  public Product(DateProvider dateProvider) {
+    this.dateProvider = dateProvider;
   }
 
   public void setPriceInCents(int priceInCents) {
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     Price newPrice = new Price(priceInCents, today);
 
     if (currentPrice == null) {
@@ -32,7 +32,7 @@ class Product {
     if (priceIsReducedEnoughToEndPromotion()) {
       promotion = null;
     } else if (priceIsStable() && priceIsReducedEnoughToStartPromotion()) {
-      promotion = new Promotion(systemCalendar);
+      promotion = new Promotion(dateProvider);
       prePromotionPrice = previousPrice;
     }
   }
@@ -95,7 +95,7 @@ class Product {
   }
 
   public void decreasePriceByPercent(double percent) {
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
     newPriceInCents -= Math.round(percent / 100 * newPriceInCents);
     Price newPrice = new Price(newPriceInCents, today);
@@ -103,7 +103,7 @@ class Product {
   }
 
   public void increasePriceByPercent(double percent) {
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
     newPriceInCents += Math.round(percent / 100 * newPriceInCents);
     Price newPrice = new Price(newPriceInCents, today);

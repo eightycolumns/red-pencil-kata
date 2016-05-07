@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-class SystemCalendar {
+class DateProvider {
   public LocalDate getDate() {
     return LocalDate.now();
   }

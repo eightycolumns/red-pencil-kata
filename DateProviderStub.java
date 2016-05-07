@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-class StubSystemCalendar extends SystemCalendar {
+class DateProviderStub extends DateProvider {
   private int modifier = 0;
 
   public void incrementDate(int number) {

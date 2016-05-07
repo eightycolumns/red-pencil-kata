@@ -3,14 +3,14 @@ import java.time.LocalDate;
 final class Promotion {
   private static final int DURATION_IN_DAYS = 30;
 
-  private final SystemCalendar systemCalendar;
+  private final DateProvider dateProvider;
 
   private final LocalDate expirationDate;
 
-  public Promotion(SystemCalendar systemCalendar) {
-    this.systemCalendar = systemCalendar;
+  public Promotion(DateProvider dateProvider) {
+    this.dateProvider = dateProvider;
 
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     expirationDate = today.plusDays(DURATION_IN_DAYS - 1);
   }
 
@@ -19,12 +19,12 @@ final class Promotion {
   }
 
   public boolean hasExpired() {
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     return today.isAfter(expirationDate);
   }
 
   public boolean expiredThirtyDaysAgo() {
-    LocalDate today = systemCalendar.getDate();
+    LocalDate today = dateProvider.getDate();
     return expirationDate.plusDays(29).isBefore(today);
   }
 }

@@ -5,13 +5,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ProductTest {
-  private StubSystemCalendar systemCalendar;
+  private DateProviderStub dateProvider;
   private Product product;
 
   @Before
   public void init() {
-    systemCalendar = new StubSystemCalendar();
-    product = new Product(systemCalendar);
+    dateProvider = new DateProviderStub();
+    product = new Product(dateProvider);
   }
 
   @Test
@@ -103,7 +103,7 @@ public class ProductTest {
 
     // Assert
     LocalDate expirationDate = product.getPromotionExpirationDate();
-    assertEquals(systemCalendar.getDate().plusDays(29), expirationDate);
+    assertEquals(dateProvider.getDate().plusDays(29), expirationDate);
   }
 
   @Test
@@ -183,22 +183,22 @@ public class ProductTest {
   }
 
   private void stepForwardTo29thDayOfStablePricing() {
-    systemCalendar.incrementDate(29);
+    dateProvider.incrementDate(29);
   }
 
   private void stepForwardTo30thDayOfStablePricing() {
-    systemCalendar.incrementDate(30);
+    dateProvider.incrementDate(30);
   }
 
   private void stepForwardToLastDayOfPromotion() {
-    systemCalendar.incrementDate(29);
+    dateProvider.incrementDate(29);
   }
 
   private void stepForwardTo29thDayAfterPromotion() {
-    systemCalendar.incrementDate(29);
+    dateProvider.incrementDate(29);
   }
 
   private void stepForwardTo30thDayAfterPromotion() {
-    systemCalendar.incrementDate(30);
+    dateProvider.incrementDate(30);
   }
 }
