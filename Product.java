@@ -94,8 +94,12 @@ class Product {
     }
   }
 
-  public LocalDate getPromotionExpirationDate() {
-    return promotion.getExpirationDate();
+  public void decreasePriceByPercent(double percent) {
+    LocalDate today = systemCalendar.getDate();
+    int newPriceInCents = currentPrice.getPriceInCents();
+    newPriceInCents -= Math.round(percent / 100 * newPriceInCents);
+    Price newPrice = new Price(newPriceInCents, today);
+    decreasePrice(newPrice);
   }
 
   public void increasePriceByPercent(double percent) {
@@ -106,11 +110,7 @@ class Product {
     increasePrice(newPrice);
   }
 
-  public void decreasePriceByPercent(double percent) {
-    LocalDate today = systemCalendar.getDate();
-    int newPriceInCents = currentPrice.getPriceInCents();
-    newPriceInCents -= Math.round(percent / 100 * newPriceInCents);
-    Price newPrice = new Price(newPriceInCents, today);
-    decreasePrice(newPrice);
+  public LocalDate getPromotionExpirationDate() {
+    return promotion.getExpirationDate();
   }
 }
