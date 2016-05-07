@@ -101,7 +101,7 @@ class Product {
   public void increasePriceByPercent(double percent) {
     LocalDate today = systemCalendar.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
-    newPriceInCents += (int)Math.round(percent / 100 * newPriceInCents);        // Cast necessary?
+    newPriceInCents += Math.round(percent / 100 * newPriceInCents);
     Price newPrice = new Price(newPriceInCents, today);
     increasePrice(newPrice);
   }
@@ -109,7 +109,7 @@ class Product {
   public void decreasePriceByPercent(double percent) {
     LocalDate today = systemCalendar.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
-    newPriceInCents -= (int)Math.round(percent / 100 * newPriceInCents);        // Cast necessary?
+    newPriceInCents -= Math.round(percent / 100 * newPriceInCents);
     Price newPrice = new Price(newPriceInCents, today);
     decreasePrice(newPrice);
   }
