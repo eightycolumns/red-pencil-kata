@@ -102,8 +102,9 @@ public class ProductTest {
     product.decreasePriceByPercent(10);
 
     // Assert
+    LocalDate today = dateProvider.getDate();
     LocalDate expirationDate = product.getPromotionExpirationDate();
-    assertEquals(dateProvider.getDate().plusDays(29), expirationDate);
+    assertEquals(today.plusDays(29), expirationDate);
   }
 
   @Test
