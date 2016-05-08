@@ -18,7 +18,7 @@ final class Promotion {
     return expirationDate;
   }
 
-  public boolean hasExpired() {
+  public boolean isExpired() {
     LocalDate today = dateProvider.getDate();
     return today.isAfter(expirationDate);
   }

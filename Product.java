@@ -51,7 +51,7 @@ class Product {
   }
 
   public boolean isPromotion() {
-    return promotion != null && !promotion.hasExpired();
+    return promotion != null && !promotion.isExpired();
   }
 
   private boolean priceIsStable() {
