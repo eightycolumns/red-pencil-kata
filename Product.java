@@ -78,17 +78,17 @@ class Product {
   }
 
   public void decreasePriceByPercent(double percent) {
-    LocalDate today = dateProvider.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
     newPriceInCents -= Math.round(percent / 100 * newPriceInCents);
+    LocalDate today = dateProvider.getDate();
     Price newPrice = new Price(newPriceInCents, today);
     decreasePrice(newPrice);
   }
 
   public void increasePriceByPercent(double percent) {
-    LocalDate today = dateProvider.getDate();
     int newPriceInCents = currentPrice.getPriceInCents();
     newPriceInCents += Math.round(percent / 100 * newPriceInCents);
+    LocalDate today = dateProvider.getDate();
     Price newPrice = new Price(newPriceInCents, today);
     increasePrice(newPrice);
   }
