@@ -157,7 +157,7 @@ public class ProductTest {
   }
 
   @Test
-  public void promotionEndsEarlyIfPriceIncreases() {
+  public void promotionEndsIfPriceIncreases() {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
@@ -171,7 +171,7 @@ public class ProductTest {
   }
 
   @Test
-  public void promotionEndsIfPriceDropsBelow30PercentStartingPoint() {
+  public void promotionEndsIfPriceDropsBelow30PercentOfPrePromotionPrice() {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
