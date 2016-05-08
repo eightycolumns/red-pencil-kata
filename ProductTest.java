@@ -146,13 +146,14 @@ public class ProductTest {
     stepForwardTo30thDayOfStablePricing();
     product.decreasePriceByPercent(10);
     stepForwardToLastDayOfPromotion();
-    LocalDate promotionExpirationDate = product.getPromotionExpirationDate();
+    LocalDate oldExpirationDate = product.getPromotionExpirationDate();
 
     // Act
     product.decreasePriceByPercent(10);
 
     // Assert
-    assertEquals(product.getPromotionExpirationDate(), promotionExpirationDate);
+    LocalDate newExpirationDate = product.getPromotionExpirationDate();
+    assertEquals(newExpirationDate, oldExpirationDate);
   }
 
   @Test
