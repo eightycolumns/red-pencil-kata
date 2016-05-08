@@ -93,7 +93,7 @@ public class ProductTest {
   }
 
   @Test
-  public void promotionExpiresInThirtyDays() {
+  public void promotionLastsFor30Days() {
     // Arrange
     product.setPriceInCents(100);
     stepForwardTo30thDayOfStablePricing();
