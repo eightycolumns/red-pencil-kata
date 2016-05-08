@@ -25,6 +25,6 @@ final class Promotion {
 
   public boolean expiredThirtyDaysAgo() {
     LocalDate today = dateProvider.getDate();
-    return expirationDate.plusDays(29).isBefore(today);
+    return today.isAfter(expirationDate.plusDays(29));
   }
 }
